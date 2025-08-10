@@ -55,3 +55,4 @@ pids/
 .idea/
 *.sublime-project
 *.sublime-workspace
+backend/database/eq_app_database.db
