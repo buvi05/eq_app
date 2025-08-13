@@ -1,9 +1,10 @@
 from flask import Flask, request,jsonify
 from models.users import db, User
 import os
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app)
 
 
 
@@ -34,12 +35,15 @@ def home():
 @app.route('/login', methods=['POST'])
 def login():
    data = request.get_json()
-   username = data.get("username")
+   username = data.get("email")
    password = data.get("password")
    existing_user = User.query.filter_by(email=username, password=password).first();
-   
+   print(str(existing_user.firstname))
+   user_fullname= existing_user.firstname+ " " + existing_user.lastname;
    if existing_user:
-       return jsonify ({"status" : "Success", "message" : "Login successful"}) 
+       return jsonify ({"status" : "Success", 
+                        "message" : "Login successful",
+                        "name" : user_fullname}) 
    else:
        return jsonify ({"status" : "failure" , "message" : "Invalid username or password"}), 401
    
